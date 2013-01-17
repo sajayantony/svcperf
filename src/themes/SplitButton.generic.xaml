@@ -1,0 +1,205 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cc ="clr-namespace:EtlViewer.Viewer.Controls"
+    >
+    <cc:ThicknessToWidthConverter x:Key="separatorConverter"/>
+    <cc:ScaledValueConverter x:Key="scaledValueConverter"/>
+
+    <Style x:Key="DummyToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="{TemplateBinding Background}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SplitButtonFocusVisualStyle" TargetType="{x:Type IFrameworkInputElement}">        
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>                    
+                    <Rectangle
+                        Margin="3,3,3,3"
+                        SnapsToDevicePixels="True"
+                        Stroke="#FF000000"
+                        StrokeDashArray="1 2"
+                        StrokeThickness="1"
+                        RadiusX="2"
+                        RadiusY="2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="ExpanderStyle">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsChecked" Value="False"/>
+        <Setter Property="ClickMode" Value="Press"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Polygon x:Name="Polygon" Fill="Black" Points="0,0 8,0 4,6"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Points" TargetName="Polygon"
+                Value="0,6 8,6 4,0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+       
+    <SolidColorBrush x:Key="SplitButtonBackground" Color="White"/>
+
+    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="SplitButtonHoverBackground">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#FFFFFF" />
+            <GradientStop Offset="0.3" Color="#FFFFFF" />
+            <GradientStop Offset="1" Color="#FFefefef" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    
+    <Style x:Key="headerButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="14" Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ContentPresenter
+                  ContentSource="Icon"
+                  Margin="2,0,2,0"
+                  Name="PART_IconSite"
+                  VerticalAlignment="Center"
+                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                  Content="{Binding Path=Icon, RelativeSource={RelativeSource AncestorType={x:Type cc:SplitButton}}, Mode=TwoWay}"
+                  Grid.Column="0"/>
+                        <ContentPresenter               
+                Name="PART_ContentSite" 
+                Margin="{TemplateBinding Control.Padding}"
+                HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"                
+                SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"                
+                RecognizesAccessKey="True"
+                Content="{TemplateBinding ContentControl.Content}"                
+                Grid.Column="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Content" SourceName="PART_IconSite" Value="{x:Null}">
+                            <Setter Property="Visibility" TargetName="PART_IconSite" Value="Collapsed"/>
+                            <Setter Property="Grid.Column" TargetName="PART_ContentSite" Value="0"/>
+                            <Setter Property="Grid.ColumnSpan" TargetName="PART_ContentSite" Value="2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type cc:SplitButton}">
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource SplitButtonFocusVisualStyle}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MessageFontFamilyKey}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MessageFontSizeKey}}" />
+        <Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MessageFontStyleKey}}" />
+        <Setter Property="FontWeight" Value="{DynamicResource {x:Static SystemFonts.MessageFontWeightKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="LightGray"/>
+        <Setter Property="Background" Value="{StaticResource SplitButtonBackground}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.MenuButtonHeightKey}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type cc:SplitButton}">
+                    <Grid>
+                        <Border
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="{TemplateBinding Background}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition 
+                                          MaxWidth="{TemplateBinding Property=BorderThickness, Converter={StaticResource separatorConverter}}"
+                                          MinWidth="{TemplateBinding Property=BorderThickness, Converter={StaticResource separatorConverter}}"/>
+                                    <ColumnDefinition 
+                                        MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"
+                                        MinWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                        Name="PART_Button" 
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Focusable="False"
+                                        Style="{StaticResource headerButtonStyle}" 
+                                        Margin="{TemplateBinding Control.Padding}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                        ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
+                                        Content="{TemplateBinding Header}"                  
+                                        Grid.Column="0" 
+                                        />
+                                <Rectangle Fill="{TemplateBinding BorderBrush}" Grid.Column="1" Visibility="Hidden" Name="separator"/>
+                                <ToggleButton
+                                      Grid.Column="2"
+                                      Focusable="False"
+                                      Name="PART_DropDownButton"
+                                      Style="{StaticResource ExpanderStyle}"/>
+                                <ToggleButton 
+                                    Style="{StaticResource DummyToggleButton}" 
+                                    Grid.Column="2"
+                                    Focusable="False"
+                                    IsChecked="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                            </Grid>
+                        </Border>
+                        <Popup 
+                            Name="PART_Popup"
+                            Placement="Bottom" 
+                            IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
+                            AllowsTransparency="True"
+                            Focusable="False" 
+                            StaysOpen="False"
+                            PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
+                            <Border 
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  Background="{StaticResource SplitButtonBackground}"
+                                  Width="{TemplateBinding Property=ActualWidth,  Converter={StaticResource scaledValueConverter}, ConverterParameter=2.5}">
+                                <ItemsPresenter 
+                                    KeyboardNavigation.DirectionalNavigation="Cycle" 
+                                    KeyboardNavigation.TabNavigation="Cycle" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Visibility" TargetName="separator" Value="Visible"/>
+                            <Setter Property="Background" Value="{StaticResource SplitButtonHoverBackground}"/>
+                            <Setter Property="BorderBrush" Value="LightGray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

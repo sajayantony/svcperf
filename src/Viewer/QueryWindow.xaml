@@ -1,0 +1,263 @@
+﻿<Window x:Class="EtlViewer.Viewer.QueryWindow"
+        xmlns:ctrls="clr-namespace:EtlViewer.Viewer.Controls"
+        xmlns:utils="clr-namespace:EtlViewer.Viewer.UIUtils"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="clr-namespace:EtlViewer.Viewer"        
+        Height="600" 
+        Width="1280"  
+        KeyDown="Window_KeyDown" 
+        Closing="Window_Closing"
+        Title="{Binding Path=EditorModel.FileName}"
+        utils:HelpProvider.Help="queries" Icon="CSD_banner.ico" >
+    <Window.Resources>
+        <utils:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <utils:CustomBoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <utils:RealTimeSpinnyConverter x:Key="RealTimeSpinnyConverter" />
+
+        <utils:CopyWithHeadersCommand x:Key="CopyWithHeadersCommand" />
+        <Style x:Key="QuerycolumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter  Property="Padding" Value="5"></Setter>
+        </Style>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewCommand}"></KeyBinding>
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenCommand}"></KeyBinding>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding ExitCommand}"/>
+        <KeyBinding Key="F5" Command="{Binding QueryModel.RunCommand}"/>
+        <KeyBinding Key="F5" Modifiers="Control" Command="{Binding BuildAndRunCommand}"/>
+    </Window.InputBindings>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource MetroWindow}">
+            <Setter Property="utils:TitleMenu.Content"  >
+                <Setter.Value>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Menu Grid.Column="0" VerticalContentAlignment="Stretch" IsMainMenu="True" >
+                            <MenuItem Margin="0" Padding="0" Width="20" Header="_File">
+                                <MenuItem.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Canvas Height="15" Width="10" Margin="0,5,0,0">
+                                            <Rectangle Height="1" Width="6" Fill="{StaticResource LightGrayBrush}"></Rectangle>
+                                            <Polygon Points="0,4 3,8 6,4">
+                                                <Polygon.Fill>
+                                                    <SolidColorBrush Color="{StaticResource LightGrayColor}"></SolidColorBrush>
+                                                </Polygon.Fill>
+                                            </Polygon>
+                                        </Canvas>
+                                    </DataTemplate>
+                                </MenuItem.HeaderTemplate>
+                                <MenuItem Header="_NEW" InputGestureText="CTRL+N" Command="{Binding NewCommand}"></MenuItem>
+                                <MenuItem Header="_OPEN" InputGestureText="CTRL+O" Command="{Binding OpenCommand}"></MenuItem>
+                                <MenuItem Header="_SAVE" InputGestureText="CTRL+S" Command="{Binding SaveCommand}"></MenuItem>
+                                <MenuItem Header="SAVE AS" InputGestureText="CTRL+SHIFT+S" Command="{Binding SaveAsCommand}"></MenuItem>
+                                <Separator></Separator>
+                                <MenuItem Header="_EXPLORER" Command="{Binding ShowFileExplorerCommand}"></MenuItem>
+                                <MenuItem Header="_PARAMETERS" Command="{Binding ShowWizardCommand}"></MenuItem>
+                                <Separator></Separator>
+                                <MenuItem Header="_EXIT" InputGestureText="ALT+F4" Command="{Binding ExitCommand}"></MenuItem>
+                            </MenuItem>
+                        </Menu>
+                        <Button Grid.Column="1" Width="25" 
+                                Command="{Binding QueryModel.RunCommand}" 
+                                Margin="0,0,0,0" 
+                                ToolTip="Run (F5)"  
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border  HorizontalAlignment="Stretch" 
+                                             VerticalAlignment="Stretch" 
+                                             Background="{TemplateBinding Background}">
+                                        <Image Source="/Assets/images/play.png" Width="14" Height="14" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.2"></Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True" >
+                                            <Setter Property="Background" Value="{StaticResource HightlightMetroBackground}"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="2" 
+                                Command="{Binding SaveCommand}" 
+                                Margin="0"
+                                Width="25"
+                                ToolTip="Save"  
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border  HorizontalAlignment="Stretch" 
+                                             VerticalAlignment="Stretch" 
+                                             Background="{TemplateBinding Background}">
+                                        <Image Source="/Assets/images/save.png" Width="16" Height="16" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.2"></Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True" >
+                                            <Setter Property="Background" Value="{StaticResource HightlightMetroBackground}"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="800"></ColumnDefinition>
+                <ColumnDefinition Width="10" ></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--<ctrls:CSharpTextBox  x:Name="queryBox" DockPanel.Dock="Top"                 
+                 Margin="10,10,0,0"
+                 VerticalAlignment="Stretch"            
+                 VerticalContentAlignment="Stretch"                 
+                 FontFamily="Consolas"  
+                 HorizontalScrollBarVisibility="Auto" 
+                 VerticalScrollBarVisibility="Auto" 
+                 AcceptsReturn="True" 
+                 AcceptsTab="True" BorderThickness="0"
+                 utils:HelpProvider.Help="queries" >
+            </ctrls:CSharpTextBox>-->
+
+            <ctrls:QueryDesigner DockPanel.Dock="Top"  x:Name="QueryDesigner"  />
+
+            <GridSplitter Grid.Column="1" Grid.Row="0" 
+                      Style="{StaticResource DefaultGridSplitterStyle}"
+                      HorizontalAlignment="Stretch"  
+                      VerticalAlignment="Stretch"                 
+                      Width="10" 
+                      Height="Auto" 
+                      Grid.RowSpan="1"                              
+                      ResizeDirection="Columns"></GridSplitter>
+            <Border Grid.Column="2"       
+                    BorderBrush="{StaticResource ControlBorderBrush}"
+                    BorderThickness="0,1,0,0">
+                <Grid
+                    Name="ResultPanel">
+                    <!--
+                        Container for Result datagrids and diagrams
+                     <<DataGrid
+                        Name="ResultGrid" 
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        SelectionUnit="Cell"                           
+                        HorizontalGridLinesBrush="LightGray" 
+                        Background="White" 
+                        VerticalGridLinesBrush="LightBlue" 
+                        BorderBrush="Transparent"
+                        ItemsSource="{Binding Mode=OneWay}"
+                        IsReadOnly="True"
+                        CanUserSortColumns="False"
+                        IsSynchronizedWithCurrentItem="True"    
+                        VirtualizingStackPanel.IsVirtualizing="True"                                                                     
+                        VerticalContentAlignment="Center" 
+                        EnableColumnVirtualization="True"                                            
+                        SelectionMode="Extended" 
+                        EnableRowVirtualization="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"    
+                        BorderThickness="0"
+                        ColumnHeaderStyle="{StaticResource QuerycolumnHeaderStyle}" >
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Copy with headers"                                
+                              Command="{StaticResource CopyWithHeadersCommand}"
+                              CommandParameter="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"></MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>                    
+                    -->
+                </Grid>
+            </Border>
+            <GridSplitter Grid.Column="0" Grid.Row="1" 
+                      Style="{StaticResource DefaultGridSplitterStyle}"
+                      HorizontalAlignment="Stretch"  
+                      VerticalAlignment="Stretch"                 
+                      
+                      Height="Auto" 
+                      Grid.ColumnSpan="3"               
+                      ResizeDirection="Rows"></GridSplitter>
+            <Grid Name="ChartPane"
+                  Grid.Row="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
+                <!--<ctrls:DurationHistogram />-->
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Style="{StaticResource BottomStatusGrid}">
+            <StatusBar x:Name="statusBar" 
+                   Visibility="Visible" 
+                   Height="25" 
+                   DockPanel.Dock="Bottom" 
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Bottom"
+                   Style="{StaticResource MetroStatusBar}">
+                <StatusBarItem Grid.Column="0" Width="20">
+                    <ctrls:Spinny x:Name="Spinny"                           
+                          Visibility="{Binding Path=QueryModel.IsBusy, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"                          
+                          Foreground="{Binding Path=QueryModel.IsRealTime, Mode=OneWay, Converter={StaticResource RealTimeSpinnyConverter}}" >
+                    </ctrls:Spinny>
+                </StatusBarItem>
+                <StatusBarItem VerticalAlignment="Center">
+                    <TextBox Name="txtStatus"                                 
+                                 Padding="0,0,10,0"
+                                 Style="{StaticResource StatusBarTextBox}"
+                                 Text="{Binding Path=QueryModel.Status, Mode=OneWay}"
+                                 IsReadOnly="True"></TextBox>
+                </StatusBarItem>
+                <StatusBarItem HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">
+                                <Hyperlink Command="{x:Static l:LogViewer.ShowLog}"
+                                 Background="{Binding Background, ElementName=statusBar}" 
+                                 Foreground="{Binding Foreground, ElementName=statusBar}" 
+                                   >LOG</Hyperlink></TextBlock>
+                        <TextBlock 
+                                VerticalAlignment="Bottom" 
+                                HorizontalAlignment="Right" 
+                                Padding="0,15,0,0" 
+                                FontSize="10" 
+                                FontFamily="Marlett">
+                                
+                        </TextBlock>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>

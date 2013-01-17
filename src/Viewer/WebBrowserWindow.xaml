@@ -1,0 +1,29 @@
+﻿<Window x:Class="EtlViewer.WebBrowserWindow"
+        x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="clr-namespace:EtlViewer"        
+        Background="#FFAAAAAA"
+        Closing="Window_Closing"
+        Title="Web Browser" Height="841" Width="900"
+        Icon="CSD_banner.ico" Style="{StaticResource MetroWindow}">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="10,2,5,3" Click="BackClick" IsEnabled="{Binding Path=CanGoBack}" Content="Back" 
+                    ToolTip="Go back (Alt-LeftArrow)" Style="{StaticResource DefaultHyperlinkButtonStyle}">
+                
+            </Button>
+            <Button Grid.Column="1" Margin="5,2,5,3" Click="ForwardClick"  IsEnabled="{Binding Path=CanGoForward}" Content="Forward"
+                    ToolTip="Go forward (Alt-RightArrow)" Style="{StaticResource DefaultHyperlinkButtonStyle}"/>
+            <TextBlock Grid.Column="3" Margin="5,2,40,3" VerticalAlignment="Center">Ctrl-F for find</TextBlock>
+        </Grid>
+        <StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom" Visibility="Collapsed"/>
+        <WebBrowser Name="Browser" SizeChanged="Browser_SizeChanged"></WebBrowser>
+    </DockPanel>
+</Window>

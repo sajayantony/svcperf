@@ -1,0 +1,40 @@
+﻿<UserControl x:Name="userControl" x:Class="EtlViewer.Viewer.Controls.Spinny"
+             x:ClassModifier="internal"
+             xmlns:ctrl="clr-namespace:EtlViewer.Viewer.Controls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Foreground="#FF01E2FF">
+    <Canvas  Name="spinny" 
+             Height="10" Margin="5">
+        <Canvas.RenderTransform>
+            <RotateTransform Angle="0" CenterX="5" CenterY="5"/>
+        </Canvas.RenderTransform>
+        <Canvas.Triggers>
+            <EventTrigger RoutedEvent="Canvas.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="spinny" 
+                                   Storyboard.TargetProperty= "(TextBlock.RenderTransform).(RotateTransform.Angle)" 
+                                   From="0" To="360" Duration="0:0:2" 
+                                   RepeatBehavior="Forever" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Canvas.Triggers>
+        <Path  StrokeThickness="3" Stroke="{Binding Path=Foreground, ElementName=userControl}">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="0,0">
+                        <ArcSegment IsLargeArc="True" 
+                                Size="5, 5" 
+                                Point="10, 10" 
+                                SweepDirection="Clockwise" />
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+    </Canvas>
+</UserControl>

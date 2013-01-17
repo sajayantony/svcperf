@@ -1,0 +1,133 @@
+﻿<UserControl 
+    xmlns:my2="clr-namespace:DataLibrary;assembly=DataLibrary" 
+    xmlns:my="clr-namespace:EtlViewer"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="EtlViewer.EventRangeSlider"
+	x:Name="UserControl"
+	d:DesignWidth="640" 
+    d:DesignHeight="480" 
+    MouseMove="LayoutRoot_MouseMove" >
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="TimelineBackground" Color="White" />
+        <ControlTemplate x:Key="simpleSlider" TargetType="{x:Type Slider}">
+            <Border x:Name="border" SnapsToDevicePixels="true" 
+            BorderBrush="{TemplateBinding BorderBrush}" 
+            BorderThickness="{TemplateBinding BorderThickness}" >
+                <Grid x:Name="grid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Canvas x:Name="canvas">
+                        <Rectangle x:Name="PART_SelectionRange" 
+                                    Opacity="0.2"
+                                    Stroke="#FFA52727" 
+                                    StrokeThickness="1" 
+                                    Fill="#FFA52727" 
+                                    SnapsToDevicePixels="True" 
+                                    Height="{TemplateBinding ActualHeight}">
+                        </Rectangle>
+                    </Canvas>
+                    <Track x:Name="PART_Track" Grid.Row="0" >
+                        <Track.Thumb>
+                            <Thumb x:Name="Thumb"  >
+                                <Thumb.Template>
+                                    <ControlTemplate TargetType="Thumb">
+                                        <Rectangle Fill="Red"                                
+                                            StrokeThickness="0" 
+                                            Width="0"                                    
+                                            SnapsToDevicePixels="True" 
+                                            />
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Track.Thumb>
+                    </Track>
+                    <my:TimelineTickbar 
+                            x:Name="BottomTick"
+                            SnapsToDevicePixels="True"
+                            Grid.Row="2"
+                            Fill="{TemplateBinding Foreground}"                             
+                            Placement="Bottom"
+                            Height="4"
+                            Visibility="Collapsed" />
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="TickPlacement"
+             Value="BottomRight">
+                    <Setter TargetName="BottomTick"
+              Property="Visibility"
+              Value="Visible" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <x:Array Type="Brush" x:Key="brushes">
+            <x:Static Member="Brushes.Black" />
+            <x:Static Member="Brushes.Red" />
+            <x:Static Member="Brushes.Orange" />
+            <x:Static Member="Brushes.Green" />
+            <x:Static Member="Brushes.LightGreen" />
+            <x:Static Member="Brushes.Navy" />
+        </x:Array>
+    </UserControl.Resources>
+	<UserControl.ContextMenu>
+		<ContextMenu>
+			<MenuItem x:Name="ZoomOutInterval" Click="ZoomOutInterval_Click" Header="Zoom out to full range"></MenuItem>
+            <MenuItem x:Name="SelectFullRange" Click="SelectFullRange_Click" Header="Select full range"></MenuItem>
+		</ContextMenu>
+	</UserControl.ContextMenu>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource TimelineBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>            
+        </Grid.RowDefinitions>
+        <Viewbox Grid.Row="0"  Stretch="Fill"  >
+            <my2:ScatterPlotRender x:Name="EventsDataDisplayControl"                               
+                                Width="{Binding ActualWidth, ElementName=UserControl, Mode=OneWay}"  
+                                Height="{Binding ActualHeight, ElementName=UserControl, Mode=OneWay}"                                
+                                Brushes="{StaticResource brushes}" 
+                                   ItemsSource="{Binding DataPoints}"
+                                   SnapsToDevicePixels="True"
+                                   />
+        </Viewbox>
+        <Slider x:Name="LowerSlider" Grid.Row="0"
+        Minimum="{Binding Minimum, ElementName=UserControl}"
+        Maximum="{Binding Maximum, ElementName=UserControl}"
+        Value="{Binding ElementName=root, Path=LowerValue}" Template="{StaticResource simpleSlider}" 
+                IsSelectionRangeEnabled="True">
+        	<Slider.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Click="SelectInterval_Click" Header="Select Interval" />                    
+                    <MenuItem  Header="Clear Selection" x:Name="DeselectInterval"  Click="DeselectInterval_Click"/>
+                    <MenuItem  Header="Zoom to selection" x:Name="ZoomToSelection"  Click="ZoomToSelection_Click" />
+                </ContextMenu>
+        	</Slider.ContextMenu>
+        </Slider>
+
+        <Slider x:Name="UpperSlider" Grid.Row="0"
+        Minimum="{Binding Minimum, ElementName=UserControl}"
+        Maximum="{Binding Maximum, ElementName=UserControl}"
+        Value="{Binding ElementName=root, Path=UpperValue}" Template="{StaticResource simpleSlider}"/>
+
+        <Slider x:Name="TickbarSlider" Grid.Row="1" Height="20" Background="Transparent"
+        Minimum="{Binding Minimum, ElementName=UserControl}"
+        Maximum="{Binding Maximum, ElementName=UserControl}" Template="{StaticResource simpleSlider}"
+                TickPlacement="BottomRight"/>
+        <Canvas>
+            <Rectangle 
+                x:Name="selectionBox" 
+                Visibility="Collapsed" 
+                Stroke="Blue" 
+                StrokeThickness="1" Fill="{StaticResource TimelineBackground}" Opacity="0.20" >
+            </Rectangle>
+        </Canvas>
+    </Grid>
+</UserControl>

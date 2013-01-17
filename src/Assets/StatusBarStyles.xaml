@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Brushes.xaml" ></ResourceDictionary>
+        <ResourceDictionary Source="ControlStyles.xaml" ></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="StatusBarTextBox" TargetType="{x:Type TextBox}" >
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}" />
+                <Setter Property="Background" Value="{StaticResource MetroBlueColorBrush}" />
+            </Trigger>
+            <Trigger Property="IsReadOnly" Value="False">
+                <Setter Property="Background" Value="{StaticResource EnbaledMetroBackground}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StatusBarLabel" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource MetroBlueColorBrush}" />
+    </Style>
+
+    <Style x:Key="{x:Type StatusBarItem}" TargetType="{x:Type StatusBarItem}">
+        <Setter Property="TextBlock.FontSize" Value="11" />
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type StatusBarItem}">
+                    <ContentPresenter Margin="0"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BottomStatusGrid" TargetType="{x:Type Grid}">
+        <Setter Property="Background" Value="{StaticResource MetroBlueColorBrush}"/>
+    </Style>
+
+    <Style x:Key="MetroStatusBar" TargetType="StatusBar">
+        <Setter Property="Background" Value="{StaticResource MetroBlueColorBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource WhiteColorBrush}" />
+    </Style>
+</ResourceDictionary>

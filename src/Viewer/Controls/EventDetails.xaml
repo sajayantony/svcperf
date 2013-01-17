@@ -1,0 +1,29 @@
+﻿<Window x:Class="EtlViewer.Viewer.Controls.EventDetails"
+        x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EVENT DETAILS" Width="700" Height="300" 
+        Style="{StaticResource MetroWindow}" 
+        WindowStartupLocation="CenterOwner">
+    <Window.BindingGroup>
+        <BindingGroup/>
+    </Window.BindingGroup>
+    <Grid>
+        <TextBox 
+                IsReadOnly="True"                                    
+                BorderThickness="0"
+                BorderBrush="Transparent"
+                VerticalContentAlignment="Top" 
+                Name="txtFind"
+                HorizontalAlignment="Stretch"                                    
+                HorizontalContentAlignment="Left"
+                Padding="5"
+                VerticalAlignment="Stretch"                                    
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Auto"
+                Text="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                TextWrapping="WrapWithOverflow"
+            >
+        </TextBox>
+    </Grid>
+</Window>

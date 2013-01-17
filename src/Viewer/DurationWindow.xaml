@@ -1,0 +1,173 @@
+﻿<Window x:Class="EtlViewer.DurationWindow"
+        x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="clr-namespace:EtlViewer"
+        xmlns:utils="clr-namespace:EtlViewer.Viewer.UIUtils"
+        Title="Request Durations" SizeToContent="WidthAndHeight"
+        utils:HelpProvider.Help="durationStats"         
+        mc:Ignorable="d" 
+        xmlns:ctrls="clr-namespace:EtlViewer.Viewer.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Width="700"
+        Height="351"
+        Icon="CSD_banner.ico"
+        Style="{StaticResource MetroWindow}">
+    <Window.Resources>
+        <utils:CopyWithHeadersCommand x:Key="CopyWithHeadersCommand" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="200*" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Row="0" Grid.Column="1" 
+                      Style="{StaticResource DefaultGridSplitterStyle}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch" 
+                      Width="10" 
+                      Grid.RowSpan="3" 
+                      ResizeDirection="Columns" RenderTransformOrigin="-10.5,0.364"></GridSplitter>
+        <GridSplitter Grid.Row="1" Grid.Column="0"
+                      Style="{StaticResource DefaultGridSplitterStyle}"
+                      HorizontalAlignment="Stretch"  
+                      VerticalAlignment="Stretch"                 
+                      Height="10"                        
+                      Grid.ColumnSpan="3"               
+                      ResizeDirection="Rows"></GridSplitter>
+        <ctrls:CSharpTextBox  Grid.Row="0" Grid.Column="0" 
+                    x:Name="txtDurationQuery"                                  
+                    VerticalAlignment="Stretch"    
+                    HorizontalScrollBarVisibility="Auto" 
+                    VerticalScrollBarVisibility="Auto" 
+                    KeyDown="txtDurationQuery_KeyDown" 
+                    utils:HelpProvider.Help="distributionQuery" 
+                    />
+        <DataGrid Grid.Row="0" Grid.Column="2" Name="gridDuration" 
+                    AutoGenerateColumns="False"                               
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        SelectionUnit="Cell"                           
+                        HorizontalGridLinesBrush="LightGray" 
+                        Background="White" 
+                        VerticalGridLinesBrush="LightBlue" 
+                        BorderBrush="Transparent"
+                        ItemsSource="{Binding Mode=OneWay}"
+                        IsReadOnly="True"
+                        CanUserSortColumns="False"
+                        IsSynchronizedWithCurrentItem="True"    
+                        VirtualizingStackPanel.IsVirtualizing="True"                                                                     
+                        VerticalContentAlignment="Center" 
+                        EnableColumnVirtualization="True"                                            
+                        SelectionMode="Extended" 
+                        EnableRowVirtualization="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                        MouseDoubleClick="gridEvents_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Duration(ms)"  Binding="{Binding Path=Duration}" Width="200"  />
+                <DataGridTextColumn Header="Count"  Binding="{Binding Path=Count}"  />
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <!--<TextBox Text="{Binding Path=Details, Mode=OneWay}"  Background="Beige" Margin="2,2,2,2" Padding="10,10,10,10"  IsReadOnly="True"/>
+                    <l:QueryView Query="{Binding Path=Details, Mode=OneWay}" MinHeight="30"></l:QueryView>-->
+                    <!--<DataGrid Name="gridDetals" ItemsSource="{Binding Path=Details, Mode=OneWay}" MinHeight="30" VerticalScrollBarVisibility="Auto"/> -->
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="MenuCopyWithHeader"  
+                              Header="Copy with headers"                                
+                              Command="{StaticResource CopyWithHeadersCommand}"
+                              CommandParameter="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <ctrls:CSharpTextBox  Grid.Row="2" Grid.Column="0" 
+                    x:Name="txtDrillDown"                                                            
+                    VerticalAlignment="Stretch"    
+                    HorizontalScrollBarVisibility="Auto" 
+                    VerticalScrollBarVisibility="Auto" 
+                    KeyDown="txtDrillDown_KeyDown" 
+                    utils:HelpProvider.Help="drilldownQuery" 
+                    />
+        <DataGrid Grid.Row="2" Grid.Column="2" Name="gridDetails"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        SelectionUnit="Cell"                           
+                        HorizontalGridLinesBrush="LightGray" 
+                        Background="White" 
+                        VerticalGridLinesBrush="LightBlue" 
+                        BorderBrush="Transparent"
+                        ItemsSource="{Binding Mode=OneWay}"
+                        IsReadOnly="True"
+                        CanUserSortColumns="False"
+                        IsSynchronizedWithCurrentItem="True"    
+                        VirtualizingStackPanel.IsVirtualizing="True"                                                                     
+                        VerticalContentAlignment="Center" 
+                        EnableColumnVirtualization="True"                                            
+                        SelectionMode="Extended" 
+                        EnableRowVirtualization="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling" >
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy with headers"                                
+                              Command="{StaticResource CopyWithHeadersCommand}"
+                              CommandParameter="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <Canvas Panel.ZIndex="99"  Width="{Binding Path=ActualWidth, ElementName=window}" Name="ContainerCanvas">
+            <Grid Background="White" Canvas.Right="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.BitmapEffect>
+                    <DropShadowBitmapEffect ShadowDepth="1" Softness="0.3"/>
+                </Grid.BitmapEffect>
+                <Expander Grid.Row="0"                    
+                    Name="myExpander"                              
+                    HorizontalAlignment="Left" 
+                    ExpandDirection="Left" 
+                    IsExpanded="False" 
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                    <Expander.Style>
+                        <Style TargetType="Expander">
+                            <Style.Triggers>
+                                <Trigger Property="IsExpanded" Value="true">
+                                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ContainerCanvas}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Expander.Style>
+                    <Expander.Triggers>
+                    </Expander.Triggers>
+                    <Expander.Header>
+                        <TextBlock Text="Chart" RenderTransformOrigin="0.5,0.5" Margin="5">
+                                   <TextBlock.LayoutTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform AngleX="0" AngleY="0"/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform X="0" Y="0"/>
+                </TransformGroup>
+            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Expander.Header>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <ctrls:DurationHistogram x:Name="histogramChart" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Expander>
+            </Grid>
+        </Canvas >
+    </Grid>
+</Window>

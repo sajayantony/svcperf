@@ -1,0 +1,26 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:EtlViewer.Viewer.Controls" 
+        x:Class="EtlViewer.Viewer.EventStatsWindow"
+        x:ClassModifier="internal"
+        xmlns:utils="clr-namespace:EtlViewer.Viewer.UIUtils"
+        Title="Event Statistics" Height="500" Width="350"
+        Icon="CSD_banner.ico"
+        utils:HelpProvider.Help="eventstats"   
+        Activated="Window_Activated_1"  
+        Style="{StaticResource MetroWindow}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"  />
+        </Grid.ColumnDefinitions>
+            <Controls:EventStatsGrid 
+                                 x:Name="StatsGrid"
+                                 HorizontalAlignment="Stretch" 
+                                 VerticalAlignment="Stretch"
+                                 />        
+
+    </Grid>
+</Window>

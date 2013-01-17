@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6E20706A-16DB-4889-B371-2888C914DB03}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EtlViewer</RootNamespace>
+    <AssemblyName>SvcPerf</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Binaries\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SvcPerfConsole.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Viewer\CSD_banner.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SupportDlls\Microsoft.Windows.Shell.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Microsoft.Windows.Shell.dll</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SupportDlls\Tx\SvcPerfUI.exe">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\SvcPerfUI.exe</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- RX/TX assemblies -->
+    <EmbeddedResource Include="SupportDlls\Tx\Tx.Windows.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Tx.Windows.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\Tx.Windows.TypeGeneration.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Tx.Windows.TypeGeneration.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\System.Reactive.Core.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\System.Reactive.Core.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\System.Reactive.Interfaces.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\System.Reactive.Interfaces.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\System.Reactive.Linq.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\System.Reactive.Linq.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\System.Reactive.PlatformServices.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\System.Reactive.PlatformServices.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\Tx.Core.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Tx.Core.dll</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SupportDlls\Queries\AllEvents.linq">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\AllEvents.linq</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SupportDlls\UsersGuide.htm">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\UsersGuide.htm</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\CausalityActivityWalking.PNG">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\CausalityActivityWalking.PNG</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\Histogram.PNG">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\Histogram.PNG</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\PerfCounter.PNG">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\PerfCounter.PNG</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\LiveSession.png">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\LiveSession.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\Diagram.png">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\Diagram.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\EventStatsWindowScreenShot.png">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\EventStatsWindowScreenShot.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\durationWindowScreenShot.png">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\durationWindowScreenShot.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\MainWindowScreenShot.png">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\MainWindowScreenShot.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Images\ActivityFilteringScreenShot.png">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Images\ActivityFilteringScreenShot.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <!-- Roslyn Assemblies -->
+  <ItemGroup>
+    <EmbeddedResource Include="SupportDlls\Tx\Roslyn.Compilers.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Roslyn.Compilers.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\Roslyn.Compilers.CSharp.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Roslyn.Compilers.CSharp.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\Roslyn.Services.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Roslyn.Services.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\Roslyn.Services.CSharp.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Roslyn.Services.CSharp.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupportDlls\Tx\Roslyn.Utilities.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Roslyn.Utilities.dll</LogicalName>
+    </EmbeddedResource>
+    <!-- Plugin Assemblies-->
+    <!--
+<EmbeddedResource Include="SupportDlls\Plugins\EventSeries.exe">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\Plugins\EventSeries.exe</LogicalName>
+    </EmbeddedResource>
+-->
+    <!-- Avalon code editor-->
+    <!--
+    <EmbeddedResource Include="SupportDlls\Tx\ICSharpCode.AvalonEdit.dll">
+      <Type>Non-Resx</Type>
+      <WithCulture>false</WithCulture>
+      <LogicalName>.\ICSharpCode.AvalonEdit.dll</LogicalName>
+    </EmbeddedResource>
+-->
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConsoleProgram.cs" />
+    <Compile Include="QueryEngine.cs" />
+    <Compile Include="Utilities\commandLine.cs" />
+    <Compile Include="Utilities\CommandLineProcessor.cs" />
+    <Compile Include="Utilities\DirectoryUtilities.cs" />
+    <Compile Include="Utilities\FileUtilities.cs" />
+    <Compile Include="Utilities\MainWindow.FileUtilities.cs" />
+    <Compile Include="Utilities\ResourceUtilities.cs" />
+    <Compile Include="Utilities\StreamUtilities.cs" />
+    <Compile Include="Utilities\SupportFiles.cs" />
+    <Compile Include="Utilities\UsersGuide.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Viewer\CSD_banner.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SvcPerfUI.csproj">
+      <Project>{5cf23bcd-a1f5-497c-92a6-e98176691913}</Project>
+      <Name>SvcPerfUI</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

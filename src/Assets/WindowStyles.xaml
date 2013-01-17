@@ -1,0 +1,188 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:utils="clr-namespace:EtlViewer.Viewer.UIUtils"
+                    xmlns:shell="clr-namespace:System.Windows.Shell">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Brushes.xaml" />
+        <ResourceDictionary Source="Fonts.xaml" />
+        <ResourceDictionary Source="ControlStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type Window}" x:Key="MetroWindow">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome 
+                            CornerRadius="0"
+                            GlassFrameThickness="0,0,0,1" 
+                            ResizeBorderThickness="3"
+                            CaptionHeight="30"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Grid>
+                        <!-- This is the ContentPresenter that displays the window content. -->
+                        <Border >
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WindowState}" 
+                                                     Value="Maximized">
+                                            <Setter Property="BorderThickness" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(WindowChrome.WindowChrome).ResizeBorderThickness}"/>
+                                            <Setter Property="Margin" Value="3,29,3,3"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WindowState}" 
+                                                     Value="Normal">
+                                            <Setter Property="BorderThickness" Value="1,0,1,1"/>
+                                            <Setter Property="BorderBrush" Value="#FF007ACC"/>
+                                            <Setter Property="Margin"  Value="0,26,0,0" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Border>
+                        <!--This is the transparent white rectangle that goes behind the window content.-->
+                        <Border BorderBrush="#FF007ACC" BorderThickness="1" Grid.ZIndex="-1" >
+                            <Rectangle Fill="White" Opacity="1" >
+                            </Rectangle>
+                        </Border>
+                        <!--<Border Margin="1,1,110,0" BorderBrush="White" BorderThickness="0,0,0,0" Grid.ZIndex="-1" Height="20" VerticalAlignment="Top">
+                                <Rectangle Fill="White" Opacity="1" />
+                            </Border>-->
+                        <!-- Window Border Content -->
+                        <!-- System Button -->
+                        <Grid Width="Auto" VerticalAlignment="Top" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WindowState}" 
+                                                     Value="Maximized">
+                                            <Setter Property="Margin" Value="6,7,6,0"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WindowState}" 
+                                                     Value="Normal">
+                                            <!--<Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(WindowChrome.WindowChrome).ResizeBorderThickness}"/>-->
+                                            <Setter Property="Margin" Value="0,1,1,0"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Border BorderThickness="0"  Grid.Column="0"
+                                    CornerRadius="0" 
+                                    BorderBrush="White"
+                                    Padding="0"
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center">
+                                <Grid>
+                                    <!-- Rounded mask (stretches to fill Grid) -->
+                                    <Border Name="mask" Background="White" CornerRadius="18"/>
+                                    <!-- Main content container -->
+                                    <StackPanel>
+                                        <!-- Use a VisualBrush of 'mask' as the opacity mask -->
+                                        <StackPanel.OpacityMask>
+                                            <VisualBrush Visual="{Binding ElementName=mask}"/>
+                                        </StackPanel.OpacityMask>
+                                        <!-- Any content -->
+                                        <Button Name="Logo"
+                                        Width="16"
+                                        Height="16"
+                                        BorderThickness="0"
+                                        WindowChrome.IsHitTestVisibleInChrome="True"
+                                        Command="{x:Static SystemCommands.ShowSystemMenuCommand}"
+                                        CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}}"
+                                        Style="{StaticResource ControlCommandButton}" Margin="0">
+                                            <Image Source="{Binding RelativeSource= {RelativeSource TemplatedParent}, Path=Icon}" 
+                                           Width="25" 
+                                           Height="25" 
+                                           WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Image.Style>
+                                                    <Style TargetType="{x:Type Image}">
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <Button.InputBindings>
+                                                <MouseBinding Gesture="LeftDoubleClick"                            
+                                                  Command="{x:Static SystemCommands.CloseWindowCommand}"
+                                                  CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}}" />
+                                            </Button.InputBindings>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter  Grid.Column="1"
+                                WindowChrome.IsHitTestVisibleInChrome="True"
+                                Content="{Binding Path=(utils:TitleMenu.Content),RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Window}}}"  >
+                            </ContentPresenter>
+                            <!-- Window Title -->
+                            <TextBlock Grid.Column="2"
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Center"                                                                              
+                                        Foreground="{StaticResource GrayBrush2}"                                        
+                                        Text="{Binding RelativeSource= {RelativeSource TemplatedParent}, 
+                                        Path=Title}" />
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Right">
+                                <Button  Name="MinimizeControlButton"
+                                    Style="{StaticResource ControlCommandButton}" 
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    Command="{x:Static SystemCommands.MinimizeWindowCommand}"                                    
+                                    CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}}">
+                                    <TextBlock ></TextBlock>
+                                </Button>
+                                <Button  Name="MaximizeCommandButton"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                                    CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}}">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ControlCommandButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WindowState}" Value="Maximized">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock></TextBlock>
+                                </Button>
+                                <Button Name="RestoreControlButton"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    Command="{x:Static SystemCommands.RestoreWindowCommand}"
+                                    CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}}">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ControlCommandButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WindowState}" Value="Normal">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock></TextBlock>
+                                </Button>
+                                <Button Name="CloseControlButton"
+                                    Style="{StaticResource ControlCommandButton}"
+                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                    Command="{x:Static SystemCommands.CloseWindowCommand}"
+                                    CommandParameter="{Binding RelativeSource= {RelativeSource TemplatedParent}}"
+                                    >r</Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
