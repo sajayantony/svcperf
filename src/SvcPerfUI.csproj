@@ -104,11 +104,6 @@
     <Reference Include="Microsoft.SqlServer.XEvent.Targets, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=AMD64">
       <HintPath>packages\Tx.SqlServer.1.0.5-beta\lib\Net40\Microsoft.SqlServer.XEvent.Targets.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Windows.Shell">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>SupportDlls\Microsoft.Windows.Shell.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Roslyn.Compilers">

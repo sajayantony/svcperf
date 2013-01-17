@@ -51,13 +51,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SupportDlls\Microsoft.Windows.Shell.dll">
-      <Type>Non-Resx</Type>
-      <WithCulture>false</WithCulture>
-      <LogicalName>.\Microsoft.Windows.Shell.dll</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="SupportDlls\Tx\SvcPerfUI.exe">
       <Type>Non-Resx</Type>
       <WithCulture>false</WithCulture>
@@ -115,17 +108,17 @@
       <WithCulture>false</WithCulture>
       <LogicalName>.\UsersGuide.htm</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupportDlls\Images\CausalityActivityWalking.PNG">
+    <EmbeddedResource Include="SupportDlls\Images\CausalityActivityWalking.png">
       <Type>Non-Resx</Type>
       <WithCulture>false</WithCulture>
       <LogicalName>.\Images\CausalityActivityWalking.PNG</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupportDlls\Images\Histogram.PNG">
+    <EmbeddedResource Include="SupportDlls\Images\Histogram.png">
       <Type>Non-Resx</Type>
       <WithCulture>false</WithCulture>
       <LogicalName>.\Images\Histogram.PNG</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupportDlls\Images\PerfCounter.PNG">
+    <EmbeddedResource Include="SupportDlls\Images\PerfCounter.png">
       <Type>Non-Resx</Type>
       <WithCulture>false</WithCulture>
       <LogicalName>.\Images\PerfCounter.PNG</LogicalName>
