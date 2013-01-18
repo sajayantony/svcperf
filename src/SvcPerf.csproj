@@ -47,6 +47,12 @@
   <PropertyGroup>
     <ApplicationIcon>Viewer\CSD_banner.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SvcPerfKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
@@ -226,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="SvcPerfKey.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

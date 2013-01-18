@@ -163,7 +163,9 @@
                 {
                     References = new MetadataReference[]{
                     MetadataReference.CreateAssemblyReference(typeof(object).Assembly.GetName().Name),
-                    new MetadataFileReference(typeof(SequenceDiagram).Assembly.Location)};
+                    new MetadataFileReference(typeof(SequenceDiagram).Assembly.Location),
+                    new MetadataFileReference(typeof(System.Reactive.Playback).Assembly.Location),
+                    new MetadataFileReference(typeof(Tx.Windows.SystemEvent).Assembly.Location)};
 
                     SyntaxTree tree = SyntaxTree.ParseText(JitPrimeTemplate);
                     var compilation = Roslyn.Compilers.CSharp.Compilation.Create(
@@ -186,7 +188,7 @@
         }
 
         public CsharpSyntaxWalker(SemanticModel model, DrawingContext dc, FormattedText formattedText)
-            : base(Roslyn.Compilers.Common.SyntaxWalkerDepth.Node)
+            : base(Roslyn.Compilers.Common.SyntaxWalkerDepth.Token)
         {
             EnsureInitialized();
             this.Model = model;
@@ -228,7 +230,8 @@
                 case SyntaxKind.IdentifierToken:
                     if (token.Parent is SimpleNameSyntax)
                     {
-                        //if (NamespaceContainsType(((SimpleNameSyntax)token.Parent).PlainName))
+                        string tokenName = ((SimpleNameSyntax)token.Parent).ToString();
+                        if (NamespaceContainsType(tokenName))
                         {
                             formatter.SetForegroundBrush(typeBrush, token.Span.Start, token.Span.Length);
                         }

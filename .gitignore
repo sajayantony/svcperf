@@ -17,6 +17,7 @@ Starter
 *.psess
 *.dll
 *.exe
+*.snk
 .nuget/NuGet.exe
 
 Binaries/*

@@ -86,6 +86,12 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SvcPerfKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -442,6 +448,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Utilities\MainWindow.FileUtilities.cs" />
+    <None Include="SvcPerfKey.snk" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="readme.txt" />

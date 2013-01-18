@@ -31,4 +31,4 @@ using System.Runtime.InteropServices;
 //
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly:InternalsVisibleTo("SvcPerf")]
+[assembly: InternalsVisibleTo("SvcPerf, PublicKey=002400000480000094000000060200000024000052534131000400000100010071cb1ef148a9ff8e2afff079d4b7e760f9a922b14affb1ce45bee50ddb563bcf94b8a0da5216b2d3650f812f4b7ffb18b1008d4b2b7de88457e82abfec4bc9e9fd2e665f737a6b56e876a9c78c1141eb3051f424415669f02ca291351ba9a6d33a1ef6418efb0f9e982239e029b739d32194c124e92154108f0c7550474abbc6")]
