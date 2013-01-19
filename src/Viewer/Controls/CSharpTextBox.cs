@@ -2,13 +2,14 @@
 {
     using Roslyn.Compilers;
     using Roslyn.Compilers.CSharp;
+    using Roslyn.Services.CSharp.Classification;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
-    
+
     class CSharpTextBox : TextBox
     {
         static CSharpTextBox()
@@ -228,10 +229,12 @@
                     formatter.SetForegroundBrush(stringBrush, token.Span.Start, token.Span.Length);
                     break;
                 case SyntaxKind.IdentifierToken:
-                    if (token.Parent is SimpleNameSyntax)
+                    if (token.Parent is IdentifierNameSyntax)
                     {
-                        string tokenName = ((SimpleNameSyntax)token.Parent).ToString();
-                        if (NamespaceContainsType(tokenName))
+                        var parentToken = ((IdentifierNameSyntax)token.Parent);
+                        string tokenName = parentToken.ToString();
+                        if (parentToken.Parent is ObjectCreationExpressionSyntax ||
+                            parentToken.Parent is TypeArgumentListSyntax)
                         {
                             formatter.SetForegroundBrush(typeBrush, token.Span.Start, token.Span.Length);
                         }
